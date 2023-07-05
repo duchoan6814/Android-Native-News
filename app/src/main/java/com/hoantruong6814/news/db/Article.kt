@@ -1,6 +1,12 @@
-package com.hoantruong6814.news.data
+package com.hoantruong6814.news.db
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity("articles")
 data class Article(
+    @PrimaryKey(true)
+    var id: Int? = null,
     val author: String,
     val content: String,
     val description: String,

@@ -1,11 +1,10 @@
 package com.hoantruong6814.news.api
 
 import com.hoantruong6814.news.R
-import com.hoantruong6814.news.data.NewsResponse
+import com.hoantruong6814.news.db.NewsResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
-import java.util.Properties
 
 interface NewAPI {
 
