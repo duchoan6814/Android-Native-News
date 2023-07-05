@@ -1,4 +1,4 @@
-package com.hoantruong6814.news.db
+package com.hoantruong6814.news.model
 
 data class Source(
     val id: String,
