@@ -1,4 +1,4 @@
-package com.hoantruong6814.news.ui
+package com.hoantruong6814.news.data
 
 data class NewsResponse(
     val articles: List<Article>,
