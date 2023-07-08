@@ -23,7 +23,8 @@ android {
 
     buildTypes {
         debug {
-            resValue("string", "news_api_key", localProperties['API_KEY'])
+//            resValue("string", "news_api_key", localProperties['API_KEY'])
+            buildConfigField("String", "news_api_key", "\"" + localProperties['API_KEY'] + "\"")
         }
         release {
             minifyEnabled false
@@ -40,6 +41,7 @@ android {
     buildFeatures {
         viewBinding true
     }
+
 }
 
 dependencies {

@@ -26,15 +26,17 @@ class NewsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityNewsBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
 
         val db = ArticleDatabase(this);
         val newsRepository = NewsRepository(db);
         val newsViewModelProviderFactory = NewsViewModelProviderFactory(newsRepository);
 
-        viewModel = ViewModelProvider(this, newsViewModelProviderFactory).get(NewsViewModel::class.java);
+        viewModel =
+            ViewModelProvider(this, newsViewModelProviderFactory).get(NewsViewModel::class.java);
+
+        binding = ActivityNewsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
 
         val newsNavHostFragment =
             supportFragmentManager.findFragmentById(R.id.newsNavHostFragment) as NavHostFragment;

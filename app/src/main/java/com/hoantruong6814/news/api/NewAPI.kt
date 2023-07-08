@@ -1,5 +1,6 @@
 package com.hoantruong6814.news.api
 
+import com.hoantruong6814.news.BuildConfig
 import com.hoantruong6814.news.R
 import com.hoantruong6814.news.db.NewsResponse
 import retrofit2.Response
@@ -16,7 +17,7 @@ interface NewAPI {
         @Query("page")
         pageNumber: Int = 1,
         @Query("apikey")
-        apiKey: Int = R.string.news_api_key
+        apiKey: String = BuildConfig.news_api_key
     ): Response<NewsResponse>
 
 
@@ -27,6 +28,6 @@ interface NewAPI {
         @Query("page")
         pageNumber: Int = 1,
         @Query("apikey")
-        apiKey: Int = R.string.news_api_key
+        apiKey: String = BuildConfig.news_api_key
     ): Response<NewsResponse>
 }
