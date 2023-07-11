@@ -42,6 +42,8 @@ class NewsAdapter : Adapter<NewsAdapter.ArticleViewHolder>() {
         return differ.currentList.size;
     }
 
+    private var onItemClickListener: ((Article) -> Unit)? = null
+
     override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
         val article = differ.currentList[position];
 
@@ -57,7 +59,7 @@ class NewsAdapter : Adapter<NewsAdapter.ArticleViewHolder>() {
             tvTitle.text = article.title;
             tvCreatedAt.text = article.publishedAt;
 
-            setOnItemClickListener {
+            setOnClickListener {
                 onItemClickListener?.let { it(article) }
             }
 
@@ -65,9 +67,8 @@ class NewsAdapter : Adapter<NewsAdapter.ArticleViewHolder>() {
 
     }
 
-    private var onItemClickListener: ((Article) -> Unit)? = null;
 
-    private fun setOnItemClickListener(listener: (Article) -> Unit) {
-        onItemClickListener = listener;
+    fun setOnItemClickListener(listener: (Article) -> Unit) {
+        onItemClickListener = listener
     }
 }
