@@ -8,6 +8,7 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
 import com.hoantruong6814.news.R
 import com.hoantruong6814.news.databinding.FragmentDetailNewsBinding
 import com.hoantruong6814.news.model.Article
@@ -27,11 +28,19 @@ class DetailNewsFragment : Fragment(R.layout.fragment_detail_news) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel = (activity as NewsActivity).viewModel;
+
+
         binding = FragmentDetailNewsBinding.bind(view);
 
         binding.wvArticle.apply {
             webViewClient = WebViewClient();
             loadUrl(article.url);
+        }
+
+        binding.fabSave.setOnClickListener {
+            viewModel.saveArticle(article);
+            Snackbar.make(view, "Article is saved.", Snackbar.LENGTH_SHORT).show();
         }
 
     }
