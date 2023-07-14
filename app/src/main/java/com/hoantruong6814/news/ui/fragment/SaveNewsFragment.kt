@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.hoantruong6814.news.R
 import com.hoantruong6814.news.adapter.NewsAdapter
@@ -28,6 +29,15 @@ class SaveNewsFragment : Fragment(R.layout.fragment_save_news) {
         viewModel.getAllNewsSaved().observe(viewLifecycleOwner, Observer { articles ->
             newsAdapter.differ.submitList(articles);
         })
+
+
+        newsAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("article", it);
+            }
+
+            findNavController().navigate(R.id.action_saveNewsFragment_to_detailNewsFragment, bundle);
+        }
     }
 
     private fun setUpRecycleView() {
