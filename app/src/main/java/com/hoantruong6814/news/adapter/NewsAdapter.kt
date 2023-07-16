@@ -13,8 +13,14 @@ import com.bumptech.glide.Glide
 import com.hoantruong6814.news.R
 import com.hoantruong6814.news.model.Article
 
-class NewsAdapter : Adapter<NewsAdapter.ArticleViewHolder>() {
+class NewsAdapter : Adapter<RecyclerView.ViewHolder>() {
+
+    private val VIEW_TYPE_ITEM = 0
+    private val VIEW_TYPE_LOADING = 1
+
     inner class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
+    inner class LoadingViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView);
 
     private val differCallback = object : DiffUtil.ItemCallback<Article>() {
         override fun areItemsTheSame(oldItem: Article, newItem: Article): Boolean {
@@ -29,13 +35,36 @@ class NewsAdapter : Adapter<NewsAdapter.ArticleViewHolder>() {
 
     val differ = AsyncListDiffer(this, differCallback)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
-        return ArticleViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.item_article_preview, parent,
-                false
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        return if (viewType == VIEW_TYPE_ITEM) {
+            ArticleViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_article_preview, parent,
+                    false
+                )
             )
-        );
+        } else {
+            LoadingViewHolder(
+                LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_loading, parent,
+                    false
+                )
+            )
+        }
+
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (differ.currentList[position] == null) VIEW_TYPE_LOADING else VIEW_TYPE_ITEM
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is ArticleViewHolder) {
+            populateArticleItem(holder, position)
+        } else if (holder is LoadingViewHolder) {
+            populateLoadingItem(holder, position)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -44,7 +73,9 @@ class NewsAdapter : Adapter<NewsAdapter.ArticleViewHolder>() {
 
     private var onItemClickListener: ((Article) -> Unit)? = null
 
-    override fun onBindViewHolder(holder: ArticleViewHolder, position: Int) {
+    private fun populateLoadingItem(holder: LoadingViewHolder, position: Int) {}
+
+    private fun populateArticleItem(holder: ArticleViewHolder, position: Int) {
         val article = differ.currentList[position];
 
         val ivCover: ImageView = holder.itemView.findViewById(R.id.ivCover);
@@ -62,7 +93,6 @@ class NewsAdapter : Adapter<NewsAdapter.ArticleViewHolder>() {
             setOnClickListener {
                 onItemClickListener?.let { it(article) }
             }
-
         }
 
     }

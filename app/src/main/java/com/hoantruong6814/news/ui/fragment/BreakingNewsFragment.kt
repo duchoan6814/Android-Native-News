@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.hoantruong6814.news.R
 import com.hoantruong6814.news.adapter.NewsAdapter
 import com.hoantruong6814.news.databinding.FragmentBreakingNewsBinding
@@ -37,7 +39,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
             val bundle = Bundle().apply {
                 putSerializable("article", it);
             }
-            
+
 
             findNavController().navigate(
                 R.id.action_breakingNewsFragment_to_detailNewsFragment,
@@ -63,8 +65,35 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
                 }
             }
         })
+
+        setupScrollListener()
+
     }
 
+    private fun handleLoading() {
+        val articlesList = newsAdapter.differ.currentList.toMutableList();
+        articlesList.add(null);
+        newsAdapter.differ.submitList(articlesList);
+    }
+
+
+    private fun setupScrollListener() {
+        binding.rvBreakingNews.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+            }
+
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                val linearLayoutManager = binding.rvBreakingNews.layoutManager as LinearLayoutManager;
+
+                if(linearLayoutManager.findLastCompletelyVisibleItemPosition() == newsAdapter.differ.currentList.size - 1) {
+                    handleLoading();
+                }
+            }
+        })
+    }
 
     private fun handleHideProgressBar() {
         binding.paginationProgressBar.visibility = View.INVISIBLE;
