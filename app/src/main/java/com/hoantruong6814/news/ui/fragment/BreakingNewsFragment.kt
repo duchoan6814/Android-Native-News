@@ -56,7 +56,7 @@ class BreakingNewsFragment : Fragment(R.layout.fragment_breaking_news) {
 
                 is Resource.Error -> {
                     isLoading = false;
-                    response.message.let { message -> Log.e(TAG, "has an error: $message") }
+                    response.message.let { message -> Toast.makeText(activity, message, Toast.LENGTH_SHORT).show() }
                 }
 
                 is Resource.Loading -> {

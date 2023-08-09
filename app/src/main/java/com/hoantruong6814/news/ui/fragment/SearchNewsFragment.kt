@@ -5,6 +5,7 @@ import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.AbsListView
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -77,7 +78,7 @@ class SearchNewsFragment : Fragment(R.layout.fragment_search_new) {
 
                 is Resource.Error -> {
                     isLoading = false;
-                    response.message.let { message -> Log.e(TAG, "has an error: $message") }
+                    response.message.let { message -> Toast.makeText(activity, message, Toast.LENGTH_SHORT).show() }
                 }
 
                 is Resource.Loading -> {
