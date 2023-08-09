@@ -1,6 +1,6 @@
 # Android-Native-News
 
-This repository houses an News App that I developed while following the tutorial series by Philipp Lackner. The tutorial covered essential topics such as MVVM architecture, Retrofit, Coroutines, Navigation Components, and importantly, integrating a Room database to save and manage favorite articles. The app utilizes the [NewsAPI](https://newsapi.org/) for fetching news articles.
+This repository houses an News App that I developed while following the [tutorial series](https://www.youtube.com/playlist?list=PLQkwcJG4YTCRF8XiCRESq1IFFW8COlxYJ) by [Philipp Lackner](https://github.com/philipplackner). The tutorial covered essential topics such as MVVM architecture, Retrofit, Coroutines, Navigation Components, and importantly, integrating a Room database to save and manage favorite articles. The app utilizes the [NewsAPI](https://newsapi.org/) for fetching news articles.
 
 ## Tutorial Source
 
