@@ -1,10 +1,9 @@
 package com.hoantruong6814.news.ui
 
-import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hoantruong6814.news.db.NewsResponse
+import com.hoantruong6814.news.model.NewsResponse
 import com.hoantruong6814.news.model.Article
 import com.hoantruong6814.news.repository.NewsRepository
 import com.hoantruong6814.news.util.Resource
@@ -15,10 +14,12 @@ class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
 
 
     val breakingNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData();
-    val breakingNewsPage = 1;
+    var breakingNewsPage = 1;
+    private var breakingNewsResponse: NewsResponse? = null;
 
     val searchNews: MutableLiveData<Resource<NewsResponse>> = MutableLiveData();
-    val searchNewsPage = 1;
+    var searchNewsPage = 1;
+    private var searchNewsResponse: NewsResponse? = null;
 
 
     init {
@@ -31,7 +32,7 @@ class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
 
         val response = newsRepository.getBreakingNews(countryCode, breakingNewsPage);
 
-        breakingNews.postValue(handleNewsResponse(response));
+        breakingNews.postValue(handleBreakingNewsResponse(response));
 
     }
 
@@ -41,14 +42,42 @@ class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
 
         val response = newsRepository.getSearchNews(searchParams, searchNewsPage);
 
-        searchNews.postValue(handleNewsResponse(response));
+        searchNews.postValue(handleSearchNewsResponse(response));
 
     }
 
-    private fun handleNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
+    private fun handleSearchNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
         if (response.isSuccessful) {
-            response.body().let { resultResponse ->
-                return Resource.Success(resultResponse);
+            response.body()?.let { resultResponse ->
+                searchNewsPage++;
+                if (searchNewsResponse == null) {
+                    searchNewsResponse = resultResponse;
+                } else {
+                    val oldArticles = searchNewsResponse?.articles;
+                    val newArticle = resultResponse.articles;
+
+                    oldArticles?.addAll(newArticle);
+                }
+                return Resource.Success(searchNewsResponse ?: resultResponse);
+            }
+        }
+
+        return Resource.Error(message = response.message());
+    }
+
+    private fun handleBreakingNewsResponse(response: Response<NewsResponse>): Resource<NewsResponse> {
+        if (response.isSuccessful) {
+            response.body()?.let { resultResponse ->
+                breakingNewsPage++;
+                if (breakingNewsResponse == null) {
+                    breakingNewsResponse = resultResponse;
+                } else {
+                    val oldArticles = breakingNewsResponse?.articles;
+                    val newArticle = resultResponse.articles;
+
+                    oldArticles?.addAll(newArticle);
+                }
+                return Resource.Success(breakingNewsResponse ?: resultResponse);
             }
         }
 
@@ -60,7 +89,7 @@ class NewsViewModel(val newsRepository: NewsRepository) : ViewModel() {
     }
 
     fun deleteArticle(article: Article) = viewModelScope.launch {
-         newsRepository.delete(article);
+        newsRepository.delete(article);
     }
 
     fun getAllNewsSaved() = newsRepository.getSaveNews();

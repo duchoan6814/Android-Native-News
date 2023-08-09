@@ -1,7 +1,5 @@
 package com.hoantruong6814.news.util
 
-import com.hoantruong6814.news.db.NewsResponse
-
 sealed class Resource<T>(val data: T? = null, val message: String? = null) {
 
     class Success<T>(data: T?) : Resource<T>(data);
