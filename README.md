@@ -29,7 +29,7 @@ The features of this News App are based on the lessons learned from the tutorial
 
 To run this project on your local machine, follow these steps:
 
-- Clone the repository: `git clone https://github.com/your-username/news-app.git`
+- Clone the repository: `git clone https://github.com/duchoan6814/Android-Native-News.git`
 - Open the project in Android Studio.
 - Build and run the app on an emulator or physical device.
 
