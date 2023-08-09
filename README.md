@@ -29,8 +29,27 @@ The features of this News App are based on the lessons learned from the tutorial
 
 To run this project on your local machine, follow these steps:
 
-- Clone the repository: git clone https://github.com/your-username/news-app.git
+- Clone the repository: `git clone https://github.com/your-username/news-app.git`
 - Open the project in Android Studio.
 - Build and run the app on an emulator or physical device.
 
 Make sure to refer to the tutorial series for guidance on obtaining and setting up your [NewsAPI](https://newsapi.org/) key to enable fetching of news articles.
+
+## API Key Setup
+
+This app requires an API key to fetch news articles. Follow these steps to set up your API key:
+
+- Visit [NewsAPI](https://newsapi.org/) and sign up for an account.
+- Once registered, create a new API key.
+- Open the `gradle.properties` file and add your API key: `API_KEY="your_api_key"`
+
+## Contribution
+
+Contributions to this project are encouraged and welcome! If you have ideas for improvements, new features, or bug fixes, please submit a pull request.
+
+---
+
+Big thanks to [Philipp Lackner](https://github.com/philipplackner) for his insightful tutorial series. If you have any questions or suggestions, please don't hesitate to reach out.
+
+***Maintainer:*** Truong Duc Hoan<br>
+***Email:*** hoantruong6814@gmail.com
